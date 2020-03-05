@@ -376,6 +376,34 @@ table th {
   margin-right: 0.6rem;
 }
 
+/* Animation */
+.item-enter {
+  opacity: 0.01;
+}
+
+.item-enter-active {
+  opacity: 1;
+  transition: opacity 1000ms ease-in;
+}
+
+.item-appear {
+  opacity: 0.01;
+}
+
+.item-appear-active {
+  opacity: 1;
+  transition: opacity 1000ms ease-in;
+}
+
+.item-exit {
+  opacity: 1;
+}
+
+.item-exit-active {
+  opacity: 0;
+  transition: opacity 1000ms ease-in;
+}
+
 /* Mobile Styles */
 @media (max-width: 700px) {
   .hide-sm {
