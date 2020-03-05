@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import ContactContext from "./contactContext";
 import contactReducer from "./contactReducer";
 import {
@@ -17,7 +17,7 @@ const ContactState = props => {
     contacts: [
       {
         type: "personal",
-        _id: "5e5fab3aed04b903ec9b5d11",
+        id: "5e5fab3aed04b903ec9b5d11",
         name: "Hary Bla",
         email: "hb@gmail.com",
         phone: "123-122-111",
@@ -27,7 +27,7 @@ const ContactState = props => {
       },
       {
         type: "professional",
-        _id: "5e5fab09ed04b903ec9b5d0f",
+        id: "5e5fab09ed04b903ec9b5d0f",
         name: "Sara Smith",
         email: "ssmith@gmail.com",
         phone: "123-122-111",
@@ -35,13 +35,57 @@ const ContactState = props => {
         date: "2020-03-04T13:20:09.410Z",
         __v: 0
       }
-    ]
+    ],
+    current: null,
+    filtered: null
   };
 
   const [state, dispatch] = useReducer(contactReducer, initialState);
 
+  const addContact = contact => {
+    contact.id = uuidv4();
+    dispatch({ type: ADD_CONTACT, payload: contact });
+  };
+
+  const deleteContact = id => {
+    dispatch({ type: DELETE_CONTACT, payload: id });
+  };
+
+  const setCurrent = contact => {
+    dispatch({ type: SET_CURRENT, payload: contact });
+  };
+
+  const updateContact = contact => {
+    dispatch({ type: UPDATE_CONTACT, payload: contact });
+  };
+
+  const clearCurrent = contact => {
+    dispatch({ type: CLEAR_CURRENT });
+  };
+
+  const filterContacts = text => {
+    dispatch({ type: FILTER_CONTACTS, payload: text });
+  };
+
+  const clearFilter = contact => {
+    dispatch({ type: CLEAR_FILTER });
+  };
+
   return (
-    <ContactContext.Provider value={{ contacts: state.contacts }}>
+    <ContactContext.Provider
+      value={{
+        contacts: state.contacts,
+        current: state.current,
+        filtered: state.filtered,
+        addContact,
+        deleteContact,
+        setCurrent,
+        updateContact,
+        clearCurrent,
+        filterContacts,
+        clearFilter
+      }}
+    >
       {props.children}
     </ContactContext.Provider>
   );
